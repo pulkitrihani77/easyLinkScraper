@@ -1,0 +1,56 @@
+{% extends 'scraperApp/base.html' %}
+
+{% block body %}
+    <div class="container my-4">
+        <form method="POST" action="/" class="form-inline">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-8">
+                    <input class="form-control mr-sm-2" type="text" name="getlinkinfo" placeholder="Paste the Weblink here...">
+                </div>
+                <div class="col-4">
+                    <button class="btn btn-primary" type="submit">get Information</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="container my-4">
+        <form method="GET" action=" " class="form-inline">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-3">
+                    <input class="form-control mr-sm-2" type="search" name="searchLink" placeholder="Search here..">
+                </div>
+                <div class="col-2">
+                    <button class="btn btn-success" type="submit">Search</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="container">
+        <table class="table table-striped">
+            <thead class="table-primary">
+                <tr>
+                    <th scope="col-3">Link Name</th>
+                    <th scope="col-5">Link Address</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for link in all_links %}
+                <tr>
+                    <td>{{link.link_name}}</td>
+                    <td style="word-wrap: break-word;min-width: 160px;max-width: 160px;">{{link.link_address}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% if all_links.has_previous %}
+            <a href="?page={{all_links.previous_page_number}}" class="btn btn-success">Previous</a>
+        {% endif %}
+        {% if all_links.has_next %}
+            <a href="?page={{all_links.next_page_number}}" class="btn btn-success">Next</a>
+        {% endif %}
+
+        <h5 class="my-4">Page : {{all_links.number}} of {{all_links.paginator.num_pages}}</h5>
+    </div>
+{% endblock %}
