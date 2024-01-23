@@ -20,4 +20,5 @@ from scraperApp import views as scraper_view
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',scraper_view.getLinks,name="getLinks"),
+    path('contact/',scraper_view.getContact,name="getContact"),
 ]

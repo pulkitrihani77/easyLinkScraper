@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 import requests
 from django.contrib import messages
 from bs4 import BeautifulSoup
-from .models import getLinkData
+from .models import getLinkData,contactForm
 from django.core.paginator import Paginator
 from django.db.models import Q
 # Create your views here.
@@ -37,3 +37,13 @@ def getLinks(request):
     
     return render(request,"scraperApp/index.html",{'all_links':all_links})
 
+def getContact(request):
+    if request.method=="POST":
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        email = request.POST.get('email')
+        subject = request.POST.get('subject')
+        feedback = request.POST.get('feedback')
+        contactForm.objects.create(first_name=first_name,last_name=last_name,email=email,subject=subject,feedback=feedback)
+    return render(request,"scraperApp/contact.html")
+ 
